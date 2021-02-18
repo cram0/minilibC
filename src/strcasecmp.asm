@@ -1,14 +1,16 @@
 BITS 64
-GLOBAL strcmp
+GLOBAL strcasecmp
 
 SECTION .text
 
-strcmp:
+strcasecmp:
     xor rcx, rcx                ; Definis le registre counter rcx a 0
 
 loop:
     mov r10b, BYTE[rdi + rcx]   ; On stock la lettre 1 dans les 8 lower bits du registre rdi + l'offset rcx dans le registre r10
     mov r11b, BYTE[rsi + rcx]   ; On stock la lettre 2 dans les 8 lower bits du registre rsi + l'offset rcx dans le registre r11
+    call check_A_1
+    call check_A_2
     cmp r10b, r11b              ; On compare les deux lettres
     jne finish                  ; Si elles ne sont pas egales, on jump au label finish
     cmp r10b, 0                 ; On compare la lettre a 0
@@ -23,3 +25,30 @@ finish:
     movsx rax, r10b             ; On move le resultat contenu dans les 8 lower bits du registre r10 dans le registre rax, en gardant le signe negatif si c'est le cas avec movsx
     ret                         ; On return le resultat contenu dans rax
 
+check_A_1:
+    cmp r10b, 65
+    jae check_Z_1
+    ret
+
+check_Z_1:
+    cmp r10b, 90
+    jbe to_lower_1
+    ret
+
+to_lower_1:
+    add r10b, 32
+    ret
+
+check_A_2:
+    cmp r11b, 65
+    jae check_Z_2
+    ret
+
+check_Z_2:
+    cmp r11b, 90
+    jbe to_lower_2
+    ret
+
+to_lower_2:
+    add r11b, 32
+    ret
