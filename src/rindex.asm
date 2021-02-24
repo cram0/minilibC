@@ -4,21 +4,27 @@ GLOBAL rindex
 SECTION .text
 
 rindex:
-    xor rax, rax
+    mov rax, rdi
     xor rcx, rcx
 
 loop:
-    cmp BYTE[rdi + rcx], 0
-    je decloop
-    inc rcx
+    cmp BYTE[rdi], 0
+    je finish
+
+    cmp BYTE[rax], sil
+    je inc_loop
+
+    cmp BYTE[rax], 0
+    je finish
+
+    inc rax
     jmp loop
 
-decloop:
-    cmp [rdi + rcx], rsi
-    je finish
-    dec rcx
-    jmp decloop
+inc_loop:
+    mov rcx, rax
+    inc rax
+    jmp loop
 
 finish:
-    mov rax, [rdi + rcx]
+    mov rax, rcx
     ret
