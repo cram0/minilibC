@@ -5,7 +5,7 @@ SECTION .text
 
 rindex:
     mov rax, rdi
-    xor rcx, rcx
+    xor r8, r8
 
 loop:
     cmp BYTE[rdi], 0
@@ -18,13 +18,14 @@ loop:
     je finish
 
     inc rax
+
     jmp loop
 
 inc_loop:
-    mov rcx, rax
+    mov r8, rax
     inc rax
     jmp loop
 
 finish:
-    mov rax, rcx
+    mov rax, r8
     ret
