@@ -10,6 +10,7 @@ SECTION .text
 ; Le code du memmove est essentiellement le meme que le memcpy,
 ; il est cense copier les donnees ailleurs avant de remplacer les
 ; donnees de la destination, mais crash si on le fait differement
+; donc on reutilise le meme code :)
 
 memmove:
     xor rcx, rcx
