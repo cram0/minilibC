@@ -11,6 +11,9 @@ loop:
     cmp BYTE[rdi], 0
     je finish
 
+    cmp sil, 0
+    je finish
+
     cmp BYTE[rax], sil
     je inc_loop
 
