@@ -5,18 +5,17 @@ SECTION .text
 
 strchr:
     xor rax, rax                ; Definis la valeur du registre rax a 0
-    xor rcx, rcx                ; Definis la valeur du registre rcx a 0
 
 loop:
-    cmp BYTE[rdi + rcx], 0      ; Compares si on est a la fin de la string dans le registre rdi
-    je nfinish                  ; Si c'est le cas, cela veut dire que l'on a pas trouve l'occurence du mot a l'index rdi + (rcx * BYTE)
-    cmp QWORD[rdi + rcx], rsi   ; Compares si le caractere a l'adresse rdi + (rcx * QWORD) est egal au caractere recherche, stocke dans rsi
-    je finish                   ; Si c'est le cas, on jump vers le label finish
-    inc rcx                     ; Sinon, on incremente le registre rcx de 1
-    jmp loop                    ; Puis on relance la boucle
+    cmp BYTE[rdi], sil      ; Compares si le caractere a l'adresse BYTE[rdi] est egal au caractere recherche, stocke dans sil (les lower 8 bit de rsi)
+    je finish               ; Si c'est le cas, on jump vers le label finish
+    cmp BYTE[rdi], 0        ; Compares si on est a la fin de la string dans le registre rdi
+    je nfinish              ; Si c'est le cas, cela veut dire que l'on a pas trouve l'occurence du mot a l'index BYTE[rdi]
+    inc rdi                 ; Sinon, on incremente le registre rdi de 1
+    jmp loop                ; Puis on relance la boucle
 
 finish:
-    mov rax, QWORD[rdi + rcx]   ; On stock dans le registre de retour rax la valeur de l'adresse de rdi + l'offset (rcx * QWORD)
+    mov rax, rdi    ; On stock dans le registre de retour rax la valeur de l'adresse de rdi + l'offset (rcx * QWORD)
     ret
 
 nfinish:
