@@ -15,7 +15,7 @@ loop:
     jmp loop                ; Puis on relance la boucle
 
 finish:
-    mov rax, rdi    ; On stock dans le registre de retour rax la valeur de l'adresse de rdi + l'offset (rcx * QWORD)
+    mov rax, rdi            ; On stock dans le registre de retour rax la valeur de l'adresse de rdi
     ret
 
 nfinish:
